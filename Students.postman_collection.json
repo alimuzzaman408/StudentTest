@@ -1,0 +1,252 @@
+{
+	"info": {
+		"_postman_id": "5864a5df-99a9-46f0-ad2a-a819d507af80",
+		"name": "Students",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8114907"
+	},
+	"item": [
+		{
+			"name": "Add student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sttus code 201\",()=>{\r",
+							"\r",
+							"    pm.response.to.have.status(201)\r",
+							"}\r",
+							");\r",
+							"\r",
+							"var jsonData=JSON.parse(responseBody)\r",
+							"pm.environment.set(\"env_id\", jsonData.id);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random=Math.random().toString(36).substring(2);\r",
+							"var name=\"Jim\"+random;\r",
+							"var location=\"queens\"+random;\r",
+							"pm.environment.set(\"env_name\",name);\r",
+							"pm.environment.set(\"env_location\",location);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{env_name}}\",\r\n    \"location\": \"{{env_location}}\",\r\n    \"phone\": \"7686868686\",\r\n    \"courses\": [\r\n        \"Python\",\r\n        \"C#\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/students/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"students",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get single  students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sttus code 200\",()=>{\r",
+							"\r",
+							"    pm.response.to.have.status(200)\r",
+							"}\r",
+							");\r",
+							"\r",
+							"\r",
+							"pm.test(\"validating json field\",()=>{\r",
+							"//var jsonData=pm.response.json();\r",
+							"var jsonData=JSON.parse(responseBody)\r",
+							"    pm.expect(jsonData.id).to.equal(pm.environment.get(\"env_id\"));\r",
+							"    pm.expect(jsonData.name).to.equal(pm.environment.get(\"env_name\"));\r",
+							"    pm.expect(jsonData.location).to.equal(pm.environment.get(\"env_location\"));\r",
+							"}\r",
+							");\r",
+							"  \r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/students/{{env_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"students",
+						"{{env_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update student details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sttus code 200\",()=>{\r",
+							"    pm.response.to.have.status(200)\r",
+							"}\r",
+							");\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var random=Math.random().toString(36).substring(2);\r",
+							"var name=\"Jim\"+random;\r",
+							"var location=\"queens\"+random;\r",
+							"\r",
+							"pm.environment.set(\"env_name\",name);\r",
+							"pm.environment.set(\"env_location\",location);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"location\": \"{{env_location}}\",\r\n    \"courses\": [\r\n        \"java\",\r\n        \"C123\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/students/{{env_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"students",
+						"{{env_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all students Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Sttus code 200\",()=>{\r",
+							"\r",
+							"    pm.response.to.have.status(200)\r",
+							"}\r",
+							");\r",
+							"pm.environment.unset(\"env_name\");\r",
+							"pm.environment.unset(\"env_location\");\r",
+							"pm.environment.unset(\"env_id\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/students/{{env_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"students",
+						"{{env_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "name",
+			"value": "Jessica",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "location_value",
+			"value": "queens\n",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
